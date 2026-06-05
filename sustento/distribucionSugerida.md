@@ -1,6 +1,6 @@
 mi-proyecto-mvp/
 │
-├── backend/                  # Capa Lógica y Orquestación (Python)
+├──/                  # Capa Lógica y Orquestación (Python)
 │   ├── config/
 │   │   ├── firebase_config.py# Inicialización de Firebase Admin SDK
 │   │   └── settings.py       # Variables de entorno (.env, API keys)

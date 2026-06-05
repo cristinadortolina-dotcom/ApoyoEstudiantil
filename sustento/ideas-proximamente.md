@@ -1,0 +1,1 @@
+como organizo la base de datos para que sirva de aprendizaje a la ia
