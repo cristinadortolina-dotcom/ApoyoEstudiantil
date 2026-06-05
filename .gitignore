@@ -1,0 +1,12 @@
+# Entorno virtual
+venv/
+__pycache__/
+*.pyc
+
+# Variables de entorno (Credenciales secretas)
+.env
+backend/config/*key*.json
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
