@@ -36,22 +36,24 @@ def test_db():
 # NUEVA RUTA - PASO 1.2 Y 1.3: MODULO DE INICIO DE SESIÓN
 # =====================================================================
 @app.route('/api/auth/login', methods=['POST'])
+
 def login():
     try:
+        print("\n--> [BACKEND app.py] 1. Petición POST recibida en /api/auth/login")
         data = request.get_json()
+        print(f"--> Data cruda en JSON: {data}")
         
         correo = data.get("correo")
-        contrasena = data.get("contraseña") # Con la ñ para que combine con Firestore
+        contrasena = data.get("contraseña") 
+        print(f"--> Variables extraídas: Correo='{correo}' | Contrasena='{contrasena}'")
         
-        # Validación simple de campos obligatorios
         if not correo or not contrasena:
-            return jsonify({
-                "status": "error", 
-                "message": "Por favor, complete todos los campos (correo y contraseña)."
-            }), 400
+            print("--> [BACKEND app.py] X. Error: Campos vacíos detectados.")
+            return jsonify({"status": "error", "message": "Campos obligatorios vacíos."}), 400
             
-        # Llamamos a la lógica de tu servicio
+        print("--> [BACKEND app.py] 2. Enviando datos al AuthService...")
         resultado = autentic_service.verificar_credenciales(correo, contrasena)
+        print(f"--> [BACKEND app.py] 3. Resultado devuelto por AuthService: {resultado}")
         
         if resultado["exito"]:
             return jsonify({
@@ -63,15 +65,12 @@ def login():
                 "proposito": resultado["proposito"]
             }), 200
         else:
-            # Si las credenciales no coinciden o no existen
-            return jsonify({
-                "status": "error",
-                "message": resultado["mensaje"]
-            }), 401
+            return jsonify({"status": "error", "message": resultado["mensaje"]}), 401
             
     except Exception as e:
-        return jsonify({"status": "error", "message": f"Error en el servidor: {str(e)}"}), 500
-
+        print(f"--> [BACKEND app.py] EXCEPCIÓN CRÍTICA: {str(e)}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+    
 # =====================================================================
 # RUTA EXISTENTE PARA CHAT / ORQUESTADOR
 # =====================================================================

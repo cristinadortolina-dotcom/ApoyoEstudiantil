@@ -21,13 +21,8 @@ def db_init():
     # 3. Construimos la ruta absoluta usando la definición del .env
     absolute_cred_path = os.path.abspath(os.path.join(project_root, env_path))
     
-    print(f"🔍 Intentando cargar credenciales desde: {absolute_cred_path}")
-
     if not os.path.exists(absolute_cred_path):
         raise FileNotFoundError(f"Error crítico: No se encontró el archivo de llaves en la ruta calculada: {absolute_cred_path}")
-
-    if os.path.getsize(absolute_cred_path) == 0:
-        raise ValueError(f"Error crítico: El archivo en {absolute_cred_path} está vacío. Copia el contenido del JSON de Firebase en él.")
 
     # Evita inicializar la app más de una vez si el servidor se recarga
     if not firebase_admin._apps:
