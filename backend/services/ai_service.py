@@ -1,14 +1,15 @@
 import os
+import json
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
-from dotenv import carga_dotenv
+from dotenv import load_dotenv
 
-carga_dotenv()
+load_dotenv()
 
 # Inicializamos el cliente oficial de Gemini
 # Automáticamente tomará la variable de entorno GEMINI_API_KEY
-client = genai.Client()
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Definimos el esquema estricto que queremos que devuelva la IA usando Pydantic
 class AnalisisEmocional(BaseModel):
@@ -29,9 +30,9 @@ def procesar_lenguaje_natural(texto_usuario):
     )
 
     try:
-        # Usamos el modelo gemini-2.5-flash (el estándar actual y más rápido para tareas de texto)
+        # Usamos el modelo gemini-2.0-flash (el estándar actual y más rápido para tareas de texto)
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-2.0-flash',
             contents=texto_usuario,
             config=types.GenerateContentConfig(
                 system_instruction=prompt_sistema,
@@ -43,7 +44,6 @@ def procesar_lenguaje_natural(texto_usuario):
         )
         
         # El SDK moderno ya parsea el JSON y nos permite usar la respuesta directo como texto plano estructurado
-        import json
         return json.loads(response.text)
         
     except Exception as e:

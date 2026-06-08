@@ -14,20 +14,20 @@ def db_init():
     if not env_path:
         raise ValueError("Error: No se encontró la ruta de las credenciales de Firebase en el archivo .env")
 
-    # 2. MAGIA DE INGENIERÍA: Sacamos solo el nombre del archivo (ej: "firebase-key.json")
-    #    sin importar cuántas carpetas le hayas puesto por delante en el .env
-    file_name = os.path.basename(env_path)
-
-    # 3. Construimos la ruta absoluta real basada en donde vive este archivo config.py
-    #    __file__ es la ubicación actual de 'firebase_config.py' (dentro de backend/config)
+    # 2. Calculamos la ruta absoluta basada en la raíz del proyecto (un nivel arriba de config)
     current_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(current_dir) # Sube a la carpeta 'backend'
     
-    # Unimos la carpeta actual directamente con el nombre del JSON de credenciales
-    absolute_cred_path = os.path.join(current_dir, file_name)
+    # 3. Construimos la ruta absoluta usando la definición del .env
+    absolute_cred_path = os.path.abspath(os.path.join(project_root, env_path))
     
-    # Doble verificación por si el archivo realmente no está ahí metido
+    print(f"🔍 Intentando cargar credenciales desde: {absolute_cred_path}")
+
     if not os.path.exists(absolute_cred_path):
         raise FileNotFoundError(f"Error crítico: No se encontró el archivo de llaves en la ruta calculada: {absolute_cred_path}")
+
+    if os.path.getsize(absolute_cred_path) == 0:
+        raise ValueError(f"Error crítico: El archivo en {absolute_cred_path} está vacío. Copia el contenido del JSON de Firebase en él.")
 
     # Evita inicializar la app más de una vez si el servidor se recarga
     if not firebase_admin._apps:
