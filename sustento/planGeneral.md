@@ -47,3 +47,30 @@ Frontend (JS): Captura el texto y lo envía mediante una petición HTTP POST a a
 Capa IA (ai_service.py): El modelo procesa el lenguaje natural y extrae la estructura (Intención: registrar_emocion, Datos: {emocion: "motivado"}).
 Orquestador (orchestration.py): Analiza la respuesta de la IA. Dice: "Ok, la IA identificó la acción registrar_emocion. Por lo tanto, voy a llamar a la función guardar_registro() de mi db_service.py".
 Base de Datos (db_service.py): Se conecta con Firebase y añade el documento en la colección correspondiente usando el ID del usuario.Respuesta: Firebase confirma el guardado $\rightarrow$ El backend genera una respuesta amigable $\rightarrow$ El frontend la muestra en pantalla sin necesidad de recargar la página.
+
+inicio de seccion
+Plan de Desarrollo: Módulo de Inicio de Sesión Inteligente
+🔹 Fase 1: Backend y Autenticación con Firestore
+En esta fase crearemos la lógica segura en Python para verificar si las credenciales existen en tu base de datos y generar una respuesta estructurada.
+
+Paso 1.1: Crear un servicio de autenticación (backend/services/auth_service.py) que consulte la colección cuenta en Firebase Firestore, verifique que el correo existe y valide si la contraseña coincide.
+
+Paso 1.2: Crear la ruta de la API en tu servidor Flask (/api/auth/login, método POST) para recibir las credenciales enviadas por el frontend.
+
+Paso 1.3: Devolver un JSON de éxito con el id_usuario real y el nombre del estudiante si la validación es correcta, o un mensaje de error controlado si falla.
+
+🔹 Fase 2: El Toque de IA (Orquestación en Login)
+Para cumplir rigurosamente con los requerimientos del profesor ("la arquitectura incluya una capa de orquestación lógica"), añadiremos un componente inteligente al proceso de bienvenida.
+
+Paso 2.1: Modificar el orquestador para que, tras un inicio de sesión exitoso, la IA lea el campo proposito (la frase u objetivo de vida que configuramos para el alumno) o sus últimos registros emocionales almacenados.
+
+Paso 2.2: Hacer que Gemini genere un saludo de bienvenida dinámico y personalizado basado en ese contexto, en lugar de un estático "¡Bienvenido de nuevo!".
+
+🔹 Fase 3: Frontend e Integración del Flujo
+Construiremos la interfaz visual y la conectaremos con la sesión del chat que ya tienes funcionando.
+
+Paso 3.1: Crear la vista de login (frontend/login.html y frontend/login.js) con un diseño limpio que combine con el chat existente.
+
+Paso 3.2: Conectar el formulario mediante fetch() al backend de Flask.
+
+Paso 3.3: Manejar la sesión del lado del cliente: si el login es exitoso, guardar el usuario_id real en el almacenamiento del navegador (localStorage) y redirigir al estudiante hacia la ventana del chat (index.html), cargando allí su bienvenida personalizada.

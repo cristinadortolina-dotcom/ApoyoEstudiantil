@@ -18,7 +18,7 @@ def db_init():
         cred = credentials.Certificate(cred_path)
         firebase_admin.initialize_app(cred)
         
-    print("🚀 Conexión exitosa con Firebase Firestore")
+    print("Conexión exitosa con Firebase Firestore")
     return firestore.client()
 
 # Instancia global de la base de datos para usarla en los servicios

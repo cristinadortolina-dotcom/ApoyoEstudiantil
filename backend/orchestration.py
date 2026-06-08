@@ -1,12 +1,12 @@
 from services.ai_service import procesar_lenguaje_natural
-from services.db_service import guardar_registro_emocional  # <-- 1. NUEVA IMPORTACIÓN
+from services.db_service import guardar_registro_emocional 
 
 def orquestar_peticion(texto_usuario, usuario_id):
     """
     EL NÚCLEO: Media entre la interpretación de la IA (Gemini) 
     y las acciones reales del sistema.
     """
-    print(f"📡 [Orquestador]: Recibiendo mensaje de usuario '{usuario_id}'...")
+    print(f"[Orquestador]: Recibiendo mensaje de usuario '{usuario_id}'...")
     
     # 1. Pasar el texto por el Procesamiento de Lenguaje Natural (Gemini)
     analisis = procesar_lenguaje_natural(texto_usuario)
@@ -19,10 +19,10 @@ def orquestar_peticion(texto_usuario, usuario_id):
     
     # 2. Capa de Orquestación: Toma de decisiones basada en la intención extraída
     if intencion == "REGISTRAR_EMOCION":
-        print(f"💾 [LÓGICA]: Intención válida detectada. Conectando con db_service...")
-        print(f"📊 [DATOS EXTRAÍDOS]: Emoción: {emocion} | Intensidad: {intensidad} | Nota: {nota}")
+        print(f"[LÓGICA]: Intención válida detectada. Conectando con db_service...")
+        print(f"[DATOS EXTRAÍDOS]: Emoción: {emocion} | Intensidad: {intensidad} | Nota: {nota}")
         
-        # 🌟 2. AJUSTE REAL: Llamamos a la función para persistir los datos en Firestore
+        # 2. Llamamos a la función para persistir los datos en Firestore
         exito_guardado = guardar_registro_emocional(usuario_id, analisis)
         
         if exito_guardado:
@@ -31,11 +31,11 @@ def orquestar_peticion(texto_usuario, usuario_id):
             analisis["accion_ejecutada"] = "Error al intentar escribir en la base de datos."
         
     elif intencion == "DESCONOCIDO":
-        print("⚠️ [LÓGICA]: El usuario habló de un tema fuera del alcance emocional.")
+        print("[LÓGICA]: El usuario habló de un tema fuera del alcance emocional.")
         analisis["accion_ejecutada"] = "Ninguna. Se mantiene la conversación fluida."
         
     else:
-        print("❌ [LÓGICA]: Error en el flujo de análisis.")
+        print("[LÓGICA]: Error en el flujo de análisis.")
         analisis["accion_ejecutada"] = "Error procesando la intención."
 
     return analisis

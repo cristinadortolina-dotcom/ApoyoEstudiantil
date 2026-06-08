@@ -2,9 +2,9 @@ import os
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
+from dotenv import carga_dotenv
 
-load_dotenv()
+carga_dotenv()
 
 # Inicializamos el cliente oficial de Gemini
 # Automáticamente tomará la variable de entorno GEMINI_API_KEY
@@ -24,7 +24,7 @@ def procesar_lenguaje_natural(texto_usuario):
     a retornar un objeto JSON alineado al esquema estructurado.
     """
     prompt_sistema = (
-        "Eres el motor de análisis de una aplicación de gestión emocional universitaria. "
+        "Eres el motor de análisis de una aplicación de gestión emocional de formacion secundaria y universitaria "
         "Tu trabajo es clasificar el texto del usuario y extraer las variables emocionales."
     )
 
@@ -47,7 +47,7 @@ def procesar_lenguaje_natural(texto_usuario):
         return json.loads(response.text)
         
     except Exception as e:
-        print(f"❌ Error en el servicio de Gemini: {e}")
+        print(f"Error en el servicio de Gemini: {e}")
         return {
             "intencion": "ERROR",
             "emocion_detectada": None,
