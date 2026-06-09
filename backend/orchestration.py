@@ -6,7 +6,7 @@ def orquestar_peticion(texto_usuario, usuario_id):
     EL NÚCLEO: Media entre la interpretación de la IA (Gemini) 
     y las acciones reales del sistema.
     """
-    print(f"[Orquestador]: Recibiendo mensaje de usuario '{usuario_id}'...")
+    print(f"\n[ORQUESTADOR] -> Procesando mensaje para el ID de Firestore: '{usuario_id}'")
     
     # 1. Pasar el texto por el Procesamiento de Lenguaje Natural (Gemini)
     analisis = procesar_lenguaje_natural(texto_usuario)
@@ -34,6 +34,10 @@ def orquestar_peticion(texto_usuario, usuario_id):
         print("[LÓGICA]: El usuario habló de un tema fuera del alcance emocional.")
         analisis["accion_ejecutada"] = "Ninguna. Se mantiene la conversación fluida."
         
+    elif intencion == "ERROR":
+        print("[LÓGICA]: El servicio de IA reportó un error (posible límite de cuota).")
+        analisis["accion_ejecutada"] = "Error de proveedor externo (Gemini API)."
+
     else:
         print("[LÓGICA]: Error en el flujo de análisis.")
         analisis["accion_ejecutada"] = "Error procesando la intención."

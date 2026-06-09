@@ -1,4 +1,8 @@
-primero inicia el entorno virtual
+primero ve a backend
+--------------------
+cd backend
+
+luego el entorno virtual
 --------------------------------
 python -m venv venv
 

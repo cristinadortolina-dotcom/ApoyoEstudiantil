@@ -30,9 +30,9 @@ def procesar_lenguaje_natural(texto_usuario):
     )
 
     try:
-        # Usamos el modelo gemini-2.0-flash (el estándar actual y más rápido para tareas de texto)
+        # Usamos el modelo gemini-1.5-flash (el estándar actual y más rápido para tareas de texto)
         response = client.models.generate_content(
-            model='gemini-2.0-flash',
+            model='gemini-1.5-flash',
             contents=texto_usuario,
             config=types.GenerateContentConfig(
                 system_instruction=prompt_sistema,
@@ -47,7 +47,14 @@ def procesar_lenguaje_natural(texto_usuario):
         return json.loads(response.text)
         
     except Exception as e:
-        print(f"Error en el servicio de Gemini: {e}")
+        # Analizamos si el error contiene la palabra clave de cuota
+        error_msg = str(e)
+        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+            print("\n⚠️ [ALERTA DE CUOTA]: Se ha agotado el límite de peticiones de Gemini 1.5 Flash.")
+            print(f"Detalle técnico: {error_msg}")
+        else:
+            print(f"❌ Error inesperado en el servicio de Gemini: {error_msg}")
+            
         return {
             "intencion": "ERROR",
             "emocion_detectada": None,

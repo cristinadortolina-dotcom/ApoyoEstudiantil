@@ -1,9 +1,9 @@
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault(); // Evita que la página se recargue automáticamente
 
-    // 1. Obtener los elementos del DOM
+    // 1. Obtener los elementos del DOM usando los IDs del HTML
     const correo = document.getElementById('correo').value.trim();
-    const clave = document.getElementById('clave').value;
+    const contrasena = document.getElementById('clave').value; // Lee de id="clave" y guarda en 'contrasena'
     const mensajeError = document.getElementById('mensaje-error');
     const btnLogin = document.getElementById('btn-login');
 
@@ -12,17 +12,18 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     btnLogin.innerText = 'Cargando...';
     btnLogin.disabled = true;
 
-   try {
+    try {
         console.log("=== [FRONTEND] 1. Datos capturados ===");
         console.log("Correo:", correo);
-        console.log("Contrasena:", contrasena);
+        console.log("Contrasena:", contrasena); // <-- Línea 18: Ahora sí coincide perfectamente
 
+        // 2. Enviar la petición al backend de Flask
         const respuesta = await fetch('http://127.0.0.1:5000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 correo: correo,
-                contraseña: contrasena 
+                contraseña: contrasena // Envía la variable 'contrasena' con la etiqueta 'contraseña'
             })
         });
 
@@ -32,12 +33,15 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         const datos = await respuesta.json();
         console.log("Cuerpo de la respuesta JSON:", datos);
 
+        // 3. Evaluar la respuesta del servidor
         if (respuesta.status === 200 && datos.status === "success") {
             console.log("=== [FRONTEND] 3. Éxito, redirigiendo... ===");
             localStorage.setItem('usuario_id', datos.id_usuario);
             localStorage.setItem('usuario_nombre', datos.nombre);
             localStorage.setItem('usuario_proposito', datos.proposito);
-            window.location.href = '../chat.html'; 
+            
+            // Redirección limpia subiendo un nivel de carpeta
+            window.location.href = 'index.html'; 
         } else {
             mostrarError(datos.message || "Credenciales incorrectas.");
         }
@@ -56,6 +60,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 // Función auxiliar para mostrar alertas visuales en la interfaz
 function mostrarError(mensaje) {
     const mensajeError = document.getElementById('mensaje-error');
-    mensajeError.innerText = mensaje;
-    mensajeError.style.display = 'block';
+    if (mensajeError) {
+        mensajeError.innerText = mensaje;
+        mensajeError.style.display = 'block';
+    }
 }

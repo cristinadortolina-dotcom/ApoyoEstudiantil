@@ -25,7 +25,7 @@ async function enviarMensaje() {
             },
             body: JSON.stringify({
                 mensaje: mensajeTexto,
-                usuario_id: "estudiante_luz_123" // ID persistente de prueba
+                usuario_id: localStorage.getItem('usuario_id') // ID persistente de prueba
             })
         });
 
