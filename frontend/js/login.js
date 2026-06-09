@@ -18,7 +18,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         console.log("Contrasena:", contrasena); // <-- Línea 18: Ahora sí coincide perfectamente
 
         // 2. Enviar la petición al backend de Flask
-        const respuesta = await fetch('https://apoyo-estudiantil.vercel.app/api/auth/login', {
+        const respuesta = await fetch('https://https://apoyoestudiantil.onrender.com/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
