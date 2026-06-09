@@ -14,3 +14,6 @@ ahora inicia
 ------------
 python app.py
 
+Para salir del entorno (al terminar)
+------------------------------------
+deactivate
