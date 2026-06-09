@@ -32,7 +32,7 @@ def procesar_lenguaje_natural(texto_usuario):
     try:
         # Usamos el modelo gemini-1.5-flash (el estándar actual y más rápido para tareas de texto)
         response = client.models.generate_content(
-            model='gemini-1.5-flash',
+            model='gemini-2.5-flash',
             contents=texto_usuario,
             config=types.GenerateContentConfig(
                 system_instruction=prompt_sistema,
