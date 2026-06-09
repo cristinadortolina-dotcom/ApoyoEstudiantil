@@ -1,1 +1,2 @@
-como organizo la base de datos para que sirva de aprendizaje a la ia
+- como organizo la base de datos para que sirva de aprendizaje a la ia
+- incluir sentimiento en el analisis de la ia

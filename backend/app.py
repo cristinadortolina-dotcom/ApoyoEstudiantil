@@ -32,9 +32,7 @@ def test_db():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# =====================================================================
-# NUEVA RUTA - PASO 1.2 Y 1.3: MODULO DE INICIO DE SESIÓN
-# =====================================================================
+# inicio de seccion
 @app.route('/api/auth/login', methods=['POST'])
 
 def login():
@@ -71,9 +69,7 @@ def login():
         print(f"--> [BACKEND app.py] EXCEPCIÓN CRÍTICA: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
     
-# =====================================================================
-# RUTA EXISTENTE PARA CHAT / ORQUESTADOR
-# =====================================================================
+# para el chat y el orquestador
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:

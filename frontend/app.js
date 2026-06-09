@@ -39,7 +39,6 @@ async function enviarMensaje() {
             const respuestaIA = data.analisis_orquestador.respuesta_ia;
             agregarMensajeAlChat(respuestaIA, 'ia-message');
         } else {
-            // Corrección: se eliminó el error de tipeo 'agregarMensriageAlChat'
             agregarMensajeAlChat('Hubo un inconveniente al procesar tu solicitud.', 'ia-message');
         }
 
@@ -69,9 +68,7 @@ function agregarMensajeAlChat(texto, claseEstilo) {
     return idUnico;
 }
 
-// =====================================================================
-// 🚪 GESTIÓN DE CIERRE DE SESIÓN
-// =====================================================================
+// cierre de seccion
 document.getElementById('btn-logout').addEventListener('click', () => {
     // 1. Limpiar los datos del usuario persistidos en el navegador
     localStorage.removeItem('usuario_id');

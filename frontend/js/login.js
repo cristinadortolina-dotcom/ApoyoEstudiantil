@@ -15,7 +15,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     try {
         console.log("=== [FRONTEND] 1. Datos capturados ===");
         console.log("Correo:", correo);
-        console.log("Contrasena:", contrasena); // <-- Línea 18: Ahora sí coincide perfectamente
+        console.log("Contrasena:", contrasena); 
 
         // 2. Enviar la petición al backend de Flask
         const respuesta = await fetch('https://apoyoestudiantil.onrender.com/api/auth/login', {
@@ -40,7 +40,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
             localStorage.setItem('usuario_nombre', datos.nombre);
             localStorage.setItem('usuario_proposito', datos.proposito);
             
-            // Redirección limpia subiendo un nivel de carpeta
+            // Redirección subiendo un nivel de carpeta
             window.location.href = 'index.html'; 
         } else {
             mostrarError(datos.message || "Credenciales incorrectas.");

@@ -8,20 +8,21 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def db_init():
-    """Inicializa la app de Firebase y retorna el cliente de Firestore"""
+    """esto inicializa la app de Firebase y retorna el cliente de Firestore"""
     
-    # 1. Obtenemos el valor de la variable de entorno
+    # 1. se optiene el valor de la variable de entorno
     cred_env_value = os.getenv("FIREBASE_CREDENTIALS_PATH")
     
     if not cred_env_value:
         raise ValueError("Error: No se encontró la variable FIREBASE_CREDENTIALS_PATH en el entorno o archivo .env")
 
-    # 2. DETECCIÓN INTELIGENTE: ¿Es el contenido del JSON (Render) o es una ruta de archivo (Local)?
+    # 2. identificacion y detencion de si el contenido del JSON (Render)
+    # o si es una ruta de archivo (Local)
     cred_env_value = cred_env_value.strip()
     
     if cred_env_value.startswith("{"):
         # --- MODO RENDER / NUBE ---
-        # Si el valor empieza con llave '{', significa que pegamos el contenido del JSON directo en Render
+        # Si el valor empieza con llave '{', significa que el contenido del JSON va directo a Render
         try:
             print("[FIREBASE] Detectado texto JSON directo. Cargando desde variable de entorno...")
             cred_dict = json.loads(cred_env_value)
@@ -30,8 +31,8 @@ def db_init():
             raise ValueError(f"Error crítico al procesar el texto JSON de Firebase desde el entorno: {str(e)}")
             
     else:
-        # --- MODO LOCAL / TU COMPUTADORA ---
-        # Si no empieza con '{', asumimos que es una ruta física de archivo (ej: "config/firebase-key.json")
+        # --- MODO LOCAL / MI COMPUTADORA ---
+        # Si no empieza con '{', puede ser una ruta física de archivo (ej: "config/firebase-key.json")
         current_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = os.path.dirname(current_dir) # Sube a la carpeta 'backend'
         

@@ -15,7 +15,7 @@ def orquestar_peticion(texto_usuario, usuario_id):
     emocion = analisis.get("emocion_detectada")
     intensidad = analisis.get("intensidad")
     nota = analisis.get("nota")
-    respuesta_para_usuario = analisis.get("respuesta_ia")
+    # mas adelante agregar respuesta_para_usuario = analisis.get("respuesta_ia")
     
     # 2. Capa de Orquestación: Toma de decisiones basada en la intención extraída
     if intencion == "REGISTRAR_EMOCION":
