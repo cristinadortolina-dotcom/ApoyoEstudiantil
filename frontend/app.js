@@ -18,7 +18,7 @@ async function enviarMensaje() {
 
     try {
         // Llamada real al API local de Flask
-        const response = await fetch('https://apoyo-estudiantil.vercel.app/api/chat', {
+        const response = await fetch('https://apoyoestudiantil.onrender.com/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
