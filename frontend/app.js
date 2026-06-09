@@ -9,15 +9,15 @@ async function enviarMensaje() {
     
     if (!mensajeTexto) return; // No hacer nada si está vacío
 
-    // agrega el mensaje del usuario en la pantalla
+    // Agrega el mensaje del usuario en la pantalla
     agregarMensajeAlChat(mensajeTexto, 'user-message');
     inputElement.value = ''; // Limpiar el campo de texto
 
-    // burbuja de carga temporal para la IA
+    // Burbuja de carga temporal para la IA
     const loadingMessageId = agregarMensajeAlChat('✍️ Pensando...', 'ia-message');
 
     try {
-        // llamada real al API local de Flask
+        // Llamada real al API local de Flask
         const response = await fetch('http://127.0.0.1:5000/api/chat', {
             method: 'POST',
             headers: {
@@ -25,7 +25,7 @@ async function enviarMensaje() {
             },
             body: JSON.stringify({
                 mensaje: mensajeTexto,
-                usuario_id: localStorage.getItem('usuario_id') // ID persistente de prueba
+                usuario_id: localStorage.getItem('usuario_id') // ID persistente real obtenido del Login
             })
         });
 
@@ -39,7 +39,8 @@ async function enviarMensaje() {
             const respuestaIA = data.analisis_orquestador.respuesta_ia;
             agregarMensajeAlChat(respuestaIA, 'ia-message');
         } else {
-            agregarMensriageAlChat('Hubo un inconveniente al procesar tu solicitud.', 'ia-message');
+            // Corrección: se eliminó el error de tipeo 'agregarMensriageAlChat'
+            agregarMensajeAlChat('Hubo un inconveniente al procesar tu solicitud.', 'ia-message');
         }
 
     } catch (error) {
@@ -53,7 +54,7 @@ function agregarMensajeAlChat(texto, claseEstilo) {
     const chatBox = document.getElementById('chatBox');
     const nuevoMensaje = document.createElement('div');
     
-    //se ponde un ID único temporal en tal caso de ser borrado
+    // Se pone un ID único temporal en tal caso de ser borrado
     const idUnico = 'msg-' + Date.now();
     nuevoMensaje.id = idUnico;
     
@@ -67,3 +68,18 @@ function agregarMensajeAlChat(texto, claseEstilo) {
     
     return idUnico;
 }
+
+// =====================================================================
+// 🚪 GESTIÓN DE CIERRE DE SESIÓN
+// =====================================================================
+document.getElementById('btn-logout').addEventListener('click', () => {
+    // 1. Limpiar los datos del usuario persistidos en el navegador
+    localStorage.removeItem('usuario_id');
+    localStorage.removeItem('usuario_nombre');
+    localStorage.removeItem('usuario_proposito');
+    
+    console.log("Sesión finalizada con éxito. Redireccionando...");
+
+    // 2. Redireccionar de inmediato a la pantalla de login
+    window.location.href = 'login.html';
+});

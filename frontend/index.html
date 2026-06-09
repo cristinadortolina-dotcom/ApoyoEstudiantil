@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apoyo Estudiantil - Gestión Emocional</title>
     <link rel="stylesheet" href="style.css">
+
+    <script>
+        if (!localStorage.getItem('usuario_id')) {
+            // Si no se encuentra el ID del usuario, rebota directo al login
+            window.location.href = 'login.html';
+        }
+    </script>
 </head>
 <body>
     
     <div class="chat-container">
         <header class="chat-header">
-            <h2>🧠 Apoyo Estudiantil LUZ</h2>
+            <div class="header-top">
+                <h2>🧠 Apoyo Estudiantil LUZ</h2>
+                <button id="btn-logout" class="logout-btn">Cerrar Sesión</button>
+            </div>
             <p>¿Cómo te sientes hoy? Cuéntame tu día, tus dudas o tu estrés.</p>
         </header>
 
