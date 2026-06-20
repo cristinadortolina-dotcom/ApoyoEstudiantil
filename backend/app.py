@@ -2,15 +2,13 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from config.firebase_config import db
 from firebase_admin import firestore
-from orchestration import orquestar_peticion  # Conecta el orquestador
-# 1. IMPORTAR EL NUEVO SERVICIO DE AUTENTICACIÓN
+from orchestration import orquestar_peticion 
 from services.autentic_service import AuthService  
 import datetime
 
 app = Flask(__name__)
 CORS(app)
 
-# Inicializamos el servicio para usarlo en las rutas
 autentic_service = AuthService()
 
 @app.route('/')
@@ -32,7 +30,6 @@ def test_db():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
     
-# --- RUTA DE REGISTRO ---
 @app.route('/api/registro', methods=['POST'])
 def registro():
     try:
@@ -42,7 +39,6 @@ def registro():
         contrasena = data.get("contraseña")
         rango = data.get("rango_academico")
 
-        # Llamamos al servicio (asegúrate de que registrar_usuario exista en AuthService)
         resultado = autentic_service.registrar_usuario(nombre, correo, contrasena, rango)
         
         if resultado.get("exito"):
@@ -53,25 +49,17 @@ def registro():
     except Exception as e:
         return jsonify({"status": "error", "error": str(e)}), 500
 
-# inicio de seccion
 @app.route('/api/auth/login', methods=['POST'])
 def login():
     try:
-        print("\n--> [BACKEND app.py] 1. Petición POST recibida en /api/auth/login")
         data = request.get_json()
-        print(f"--> Data cruda en JSON: {data}")
-        
         correo = data.get("correo")
         contrasena = data.get("contraseña") 
-        print(f"--> Variables extraídas: Correo='{correo}' | Contrasena='{contrasena}'")
         
         if not correo or not contrasena:
-            print("--> [BACKEND app.py] X. Error: Campos vacíos detectados.")
             return jsonify({"status": "error", "message": "Campos obligatorios vacíos."}), 400
             
-        print("--> [BACKEND app.py] 2. Enviando datos al AuthService...")
         resultado = autentic_service.verificar_credenciales(correo, contrasena)
-        print(f"--> [BACKEND app.py] 3. Resultado devuelto por AuthService: {resultado}")
         
         if resultado["exito"]:
             return jsonify({
@@ -86,19 +74,13 @@ def login():
             return jsonify({"status": "error", "message": resultado["mensaje"]}), 401
             
     except Exception as e:
-        print(f"--> [BACKEND app.py] EXCEPCIÓN CRÍTICA: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
     
-# para el chat y el orquestador
 @app.route('/api/chat', methods=['POST'])
 def chat():
     try:
         data = request.get_json()
-        
         texto_usuario = data.get("mensaje")
-        
-        # ¡Ojo aquí! Ahora que tenemos login real, el frontend nos enviará 
-        # el id_usuario real de localStorage, si no, cae en el temporal.
         usuario_id = data.get("usuario_id", "estudiante_luz_123") 
         
         if not texto_usuario:
@@ -114,67 +96,67 @@ def chat():
     except Exception as e:
         return jsonify({"status": "error", "message": f"Error interno en el servidor: {str(e)}"}), 500
 
-
 # =========================================================
-# NUEVA RUTA DEL PASO 2: MÓDULO COGNITIVO 
+# MÓDULO COGNITIVO MODIFICADO (Evaluación e Interpretación)
 # =========================================================
 @app.route('/api/cognitivo/evaluar', methods=['POST'])
 def evaluar_test_cognitivo():
     try:
         datos = request.get_json()
         usuario_id = datos.get("usuario_id")
-        respuestas = datos.get("respuestas")
-
-        if not usuario_id or not respuestas:
-            return jsonify({"status": "error", "message": "Datos incompletos para evaluar el test."}), 400
-
-        # Mapeo y cálculo matemático por Área Cognitiva (Escala 1 a 5)
-        atencion = (float(respuestas.get('p1', 0)) + float(respuestas.get('p2', 0))) / 2
-        memoria = (float(respuestas.get('p3', 0)) + float(respuestas.get('p4', 0))) / 2
-        funciones_ejecutivas = (float(respuestas.get('p5', 0)) + float(respuestas.get('p6', 0))) / 2
-        orientacion = (float(respuestas.get('p7', 0)) + float(respuestas.get('p8', 0))) / 2
-
-        analisis_areas = {
-            "Atención y Concentración": {
-                "puntuacion": atencion,
-                "estado": "Fortaleza" if atencion >= 4.0 else "Área de Oportunidad"
-            },
-            "Memoria de Trabajo": {
-                "puntuacion": memoria,
-                "estado": "Fortaleza" if memoria >= 4.0 else "Área de Oportunidad"
-            },
-            "Funciones Ejecutivas": {
-                "puntuacion": funciones_ejecutivas,
-                "estado": "Fortaleza" if funciones_ejecutivas >= 4.0 else "Área de Oportunidad"
-            },
-            "Orientación Espacio-Temporal": {
-                "puntuacion": orientacion,
-                "estado": "Fortaleza" if orientacion >= 4.0 else "Área de Oportunidad"
-            }
-        }
-
-        # Advertencia de responsabilidad legal / disclaimer solicitada por Andrea
-        advertencia_medica = "Esto no sustituye un diagnóstico psicológico y si necesita más información acudir a un especialista en el área."
-
-        # Guardar el registro histórico del test en la colección 'test_cognitivo'
-        registro_test = {
-            "usuario_id": usuario_id,
-            "fecha": datetime.datetime.utcnow().isoformat(),
-            "resultados": analisis_areas,
-            "advertencia": advertencia_medica
-        }
+        respuestas_texto = datos.get("respuestas") # Recibe {"p1": "Siempre", ...}
+        bloqueo_selec = datos.get("bloqueo") 
+        nivel_selec = datos.get("nivel")
+        proposito = datos.get("proposito")
         
-        db.collection('test_cognitivo').add(registro_test)
+        if not usuario_id or not respuestas_texto:
+            return jsonify({"status": "error", "message": "Datos incompletos."}), 400
 
-        return jsonify({
-            "status": "success",
-            "resultados": analisis_areas,
-            "advertencia": advertencia_medica
-        }), 200
+        # --- DICCIONARIO DE CONVERSIÓN ---
+        mapeo = {
+            "Nunca": 1,
+            "Raramente": 2,
+            "A veces": 3,
+            "Frecuentemente": 4,
+            "Siempre": 5
+        }
+
+        # Función auxiliar para convertir el texto recibido a número
+        def get_valor(key):
+            texto = respuestas_texto.get(key, "Nunca")
+            return mapeo.get(texto, 1) # Si el texto no existe, devuelve 1 por seguridad
+
+        # Cálculos de promedios (ahora usando números)
+        atencion = (get_valor('p1') + get_valor('p2')) / 2
+        ejecutivas = (get_valor('p3') + get_valor('p4') + get_valor('p5')) / 3
+        memoria = (get_valor('p6') + get_valor('p7')) / 2
+        orientacion = (get_valor('p8') + get_valor('p9')) / 2
+
+        # Lógica de interpretación
+        def obtener_estado(promedio):
+            return "Fortaleza" if promedio >= 3.5 else "Oportunidad"
+
+        resultados_enriquecidos = {
+            "Atención": {"puntuacion": round(atencion, 2), "estado": obtener_estado(atencion)},
+            "Funciones Ejecutivas": {"puntuacion": round(ejecutivas, 2), "estado": obtener_estado(ejecutivas)},
+            "Memoria": {"puntuacion": round(memoria, 2), "estado": obtener_estado(memoria)},
+            "Orientación": {"puntuacion": round(orientacion, 2), "estado": obtener_estado(orientacion)}
+        }
+
+        # Guardar en Firestore
+        db.collection('test_cognitivo').add({
+            "id_usuario": usuario_id,
+            "fecha": datetime.datetime.utcnow().isoformat(),
+            "resultados": resultados_enriquecidos,
+            "dimension_bloqueo": bloqueo_selec,
+            "nivel_academico": nivel_selec,
+            "proposito_usuario": proposito
+        })
+
+        return jsonify({"status": "success", "resultados": resultados_enriquecidos}), 200
 
     except Exception as e:
-        return jsonify({"status": "error", "message": f"Error interno en la evaluación: {str(e)}"}), 500
-
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

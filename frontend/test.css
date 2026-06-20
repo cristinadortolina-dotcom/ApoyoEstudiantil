@@ -1,0 +1,116 @@
+/* --- VARIABLES --- */
+:root {
+    --primary: #6db197;
+    --primary-dark: #568d78;
+    --bg-app: #f4f7f6;
+    --text-main: #334155;
+    --white: #ffffff;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --yellow-pastel: #fef08a;
+    --yellow-soft: #fffbeb;
+    --yellow-border: #fef9c3;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+h1 { color: var(--primary-dark); text-align: center; margin-bottom: 30px; }
+
+/* --- BLOQUES DE PREGUNTAS --- */
+.question-block {
+    background: #fdfdfd;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.question-block:hover { border-color: var(--primary); }
+
+.options-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+
+.option-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: #f1f5f9;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.option-label:hover { background: #e2e8f0; }
+
+input[type="radio"] { margin-right: 8px; accent-color: var(--primary); }
+
+/* --- BOTONES --- */
+.btn-action {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-action:hover { background: var(--primary-dark); }
+
+/* --- ESTILOS DE RESULTADOS (AMARILLO PASTEL) --- */
+.results-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    border: 2px solid var(--yellow-border);
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.results-table th {
+    background-color: var(--yellow-pastel);
+    color: #713f12;
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+}
+
+.results-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--yellow-border);
+    background-color: var(--yellow-soft);
+}
+
+.badge-fortaleza { 
+    background-color: #dcfce7; color: #166534; 
+    padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold;
+}
+.badge-oportunidad { 
+    background-color: #fee2e2; color: #991b1b; 
+    padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold;
+}

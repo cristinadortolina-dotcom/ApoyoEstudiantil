@@ -2,452 +2,131 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApoyoEstudiantil - Test de Áreas Cognitivas</title>
-    <style>
-        :root {
-            /* Paleta de colores pasteles y desaturados */
-            --green-bg: #eef7f4;
-            --green-card: #ffffff;
-            --green-accent: #6db197;
-            --green-hover: #599b82;
-            --green-text: #2d4a3e;
-            
-            --yellow-bg: #fdfaf0;
-            --yellow-card: #ffffff;
-            --yellow-accent: #f4d36f;
-            --yellow-header: #fcf4d9;
-            --yellow-text: #5d4f2a;
-
-            --border-color: #e2e8f0;
-            --text-dark: #334155;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            color: var(--text-dark);
-            background-color: var(--green-bg); /* Por defecto inicia en la pantalla verde */
-            padding: 40px 20px;
-            transition: background-color 0.4s ease;
-        }
-
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-        }
-
-        /* PANTALLA 1: TEST (VERDE PASTEL) */
-        #testScreen {
-            background: var(--green-card);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(109, 177, 151, 0.2);
-            box-shadow: 0 10px 25px rgba(45, 74, 62, 0.04);
-        }
-
-        #testScreen h1 {
-            color: var(--green-text);
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        #testScreen .subtitle {
-            text-align: center;
-            color: #708090;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-        }
-
-        /* ADVERTENCIA MÉDICA */
-        .disclaimer-box {
-            background-color: #fffaf0;
-            border-left: 4px solid #f3cb7b;
-            color: #7c622c;
-            padding: 16px 20px;
-            margin-bottom: 35px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* BLOQUES DE PREGUNTAS */
-        .question-block {
-            margin-bottom: 35px;
-            padding-bottom: 25px;
-            border-bottom: 1px dashed var(--border-color);
-        }
-
-        .question-block:last-of-type {
-            border-bottom: none;
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 18px;
-            line-height: 1.4;
-        }
-
-        /* FILA DE OPCIONES (CIRCULARES Y SEPARADAS) */
-        .options-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .option-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            cursor: pointer;
-            padding: 12px 6px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: #f8fafc;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #64748b;
-            transition: all 0.25s ease;
-            text-align: center;
-        }
-
-        /* Ocultar el radio button nativo pero usarlo para el estilo */
-        .option-label input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid #cbd5e1;
-            border-radius: 50%;
-            margin-bottom: 8px;
-            outline: none;
-            background: #ffffff;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .option-label input[type="radio"]:checked {
-            border-color: var(--green-accent);
-            background: var(--green-accent);
-        }
-
-        /* Efecto contenedor al seleccionar */
-        .option-label:has(input:checked) {
-            background: #f0f7f4;
-            border-color: var(--green-accent);
-            color: var(--green-text);
-            font-weight: 600;
-        }
-
-        .option-label:hover {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
-        }
-
-        /* BOTONES ACCIÓN */
-        .btn-action {
-            display: block;
-            width: 100%;
-            border: none;
-            padding: 16px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .btn-green {
-            background-color: var(--green-accent);
-            color: white;
-            margin-top: 20px;
-        }
-
-        .btn-green:hover {
-            background-color: var(--green-hover);
-            box-shadow: 0 4px 12px rgba(109, 177, 151, 0.2);
-        }
-
-
-        /* PANTALLA 2: RESULTADOS (AMARILLO PASTEL) - OCULTA AL INICIO */
-        #resultsScreen {
-            display: none;
-            background: var(--yellow-card);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(244, 211, 111, 0.3);
-            box-shadow: 0 10px 25px rgba(93, 79, 42, 0.03);
-        }
-
-        #resultsScreen h2 {
-            color: var(--yellow-text);
-            font-size: 1.7rem;
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        /* TABLA AMARILLA SÚPER LIMPIA */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 35px;
-        }
-
-        th, td {
-            padding: 14px 18px;
-            text-align: left;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        th {
-            background-color: var(--yellow-header);
-            color: var(--yellow-text);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
-        th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
-
-        td {
-            font-size: 0.95rem;
-            color: #475569;
-        }
-
-        /* BADGES DESATURADOS */
-        .badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .badge-fortaleza {
-            background-color: #e6f4ea;
-            color: #137333;
-        }
-
-        .badge-oportunidad {
-            background-color: #fce8e6;
-            color: #c5221f;
-        }
-
-        .btn-yellow {
-            background-color: #f1f5f9;
-            color: #475569;
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-yellow:hover {
-            background-color: #e2e8f0;
-        }
-    </style>
+    <title>ApoyoEstudiantil - Test</title>
+    <link rel="stylesheet" href="test.css">
 </head>
 <body>
 
 <div class="container">
-    
     <div id="testScreen">
         <h1>Evaluación de Áreas Cognitivas</h1>
-        <p class="subtitle">Descubre tus patrones de rendimiento académico actual</p>
-        
-        <div class="disclaimer-box" id="disclaimerBox">
-            ⚠️ <strong>Aviso importante:</strong> Esto no sustituye un diagnóstico psicológico profesional. Si necesitas orientación o mayor información, te recomendamos acudir con un especialista en el área de la salud mental.
-        </div>
-
         <form id="cognitiveTestForm">
+            <div id="preguntasContainer"></div>
+
             <div class="question-block">
-                <p class="question-text">1. Cuando estoy en una clase o leyendo un material de estudio extenso, logro mantener la concentración sin distraerme con estímulos externos.</p>
+                <p>10. ¿En cuál de estas dimensiones experimentas mayor bloqueo?</p>
                 <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p1" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p1" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p1" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p1" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p1" value="5">Siempre</label>
+                    <label class="option-label"><input type="radio" name="bloqueo" value="Logico" required> Lógico</label>
+                    <label class="option-label"><input type="radio" name="bloqueo" value="Textos" required> Textos</label>
+                    <label class="option-label"><input type="radio" name="bloqueo" value="Tiempo" required> Tiempo</label>
+                    <label class="option-label"><input type="radio" name="bloqueo" value="Atencion" required> Atención</label>
                 </div>
             </div>
 
             <div class="question-block">
-                <p class="question-text">2. Si un ejercicio o problema de programación/lógica no me sale a la primera, puedo continuar enfocado intentándolo de manera constante.</p>
+                <p>11. ¿Cómo calificarías el nivel de impacto?</p>
                 <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p2" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p2" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p2" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p2" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p2" value="5">Siempre</label>
+                    <label class="option-label"><input type="radio" name="nivel" value="Inicial" required> Inicial</label>
+                    <label class="option-label"><input type="radio" name="nivel" value="Intermedio" required> Intermedio</label>
+                    <label class="option-label"><input type="radio" name="nivel" value="Avanzado" required> Avanzado</label>
                 </div>
             </div>
 
             <div class="question-block">
-                <p class="question-text">3. Al estudiar conceptos nuevos o fórmulas complejas, logro recordar la información clave días después sin necesidad de volver a repasar todo.</p>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p3" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p3" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p3" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p3" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p3" value="5">Siempre</label>
-                </div>
+                <label>¿Cuál es tu propósito de estudio?</label>
+                <textarea name="proposito" required style="width:100%; height:60px; margin-top:10px;"></textarea>
             </div>
 
-            <div class="question-block">
-                <p class="question-text">4. Puedo retener mentalmente instrucciones complejas o variables de un código mientras ejecuto otras partes de la tarea.</p>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p4" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p4" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p4" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p4" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p4" value="5">Siempre</label>
-                </div>
-            </div>
-
-            <div class="question-block">
-                <p class="question-text">5. Cuando tengo múltiples asignaciones universitarias con fechas de entrega cercanas, logro priorizar de manera ordenada.</p>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p5" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p5" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p5" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p5" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p5" value="5">Siempre</label>
-                </div>
-            </div>
-
-            <div class="question-block">
-                <p class="question-text">6. Ante un proyecto grande y desafiante, soy capaz de desglosarlo en pequeños pasos manejables y avanzar de forma sistemática.</p>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p6" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p6" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p6" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p6" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p6" value="5">Siempre</label>
-                </div>
-            </div>
-
-            <div class="question-block">
-                <p class="question-text">7. Gestiono mi agenda diaria de actividades académicas con precisión, logrando estimar cuánto tiempo me tomará cada tarea.</p>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p7" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p7" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p7" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p7" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p7" value="5">Siempre</label>
-                </div>
-            </div>
-
-            <div class="question-block">
-                <p class="question-text">8. Al organizar mis apuntes o diagramas conceptuales (como bases de datos), logro estructurarlos visualmente de manera ordenada.</p>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="p8" value="1" required>Nunca</label>
-                    <label class="option-label"><input type="radio" name="p8" value="2">Raramente</label>
-                    <label class="option-label"><input type="radio" name="p8" value="3">A veces</label>
-                    <label class="option-label"><input type="radio" name="p8" value="4">Frecuentemente</label>
-                    <label class="option-label"><input type="radio" name="p8" value="5">Siempre</label>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-action btn-green">Finalizar Test y Ver Resultados</button>
+            <button type="submit" class="btn-action">Finalizar Test</button>
         </form>
     </div>
 
-    <div id="resultsScreen">
-        <h2>📊 Matriz de Rendimiento Cognitivo Académico</h2>
-        
-        <table id="resultsTable">
+    <div id="resultsScreen" class="results-card" style="display: none;">
+        <h1>Tus Resultados</h1>
+        <table class="results-table">
             <thead>
                 <tr>
-                    <th>Área Cognitiva Evaluada</th>
-                    <th>Puntuación Promedio</th>
-                    <th>Estado / Clasificación</th>
+                    <th>Área</th>
+                    <th>Puntuación</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
-            <tbody id="resultsTableBody">
-                </tbody>
+            <tbody id="resultsTableBody"></tbody>
         </table>
-
-        <div class="disclaimer-box" id="resultDisclaimerBox" style="margin-top: 20px;">
-            </div>
-
-        <button class="btn-action btn-yellow" onclick="window.location.reload();">Volver a realizar la evaluación</button>
+        <br>
+        <button class="btn-action" onclick="location.reload()">Volver a empezar</button>
     </div>
-
 </div>
 
 <script>
-    document.getElementById('cognitiveTestForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    const bancoPreguntas = [
+        "1. Mantengo el foco en clases teóricas sin distraerme.",
+        "2. Puedo continuar enfocado en problemas complejos sin frustrarme.",
+        "3. Al estudiar conceptos nuevos, logro recordarlos días después.",
+        "4. Retengo instrucciones complejas mientras ejecuto otras tareas.",
+        "5. Logro priorizar deberes ante fechas de entrega cercanas.",
+        "6. Desgloso proyectos grandes en subtareas manejables.",
+        "7. Modifico mi estrategia de estudio si los resultados no son óptimos.",
+        "8. Estimo con realismo el tiempo necesario para mis tareas.",
+        "9. Estructuro mis apuntes visualmente de manera ordenada."
+    ];
 
-        const usuarioId = localStorage.getItem('usuario_id') || "estudiante_luz_123";
-        const formData = new FormData(this);
+    const container = document.getElementById('preguntasContainer');
+    bancoPreguntas.forEach((pregunta, index) => {
+        container.innerHTML += `
+            <div class="question-block">
+                <p>${pregunta}</p>
+                <div class="options-group">
+                    ${['Nunca','Raramente','A veces','Frecuentemente','Siempre'].map(op => `
+                        <label class="option-label"><input type="radio" name="p${index+1}" value="${op}" required> ${op}</label>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+
+    document.getElementById('cognitiveTestForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
         const respuestas = {};
-        
-        for (let i = 1; i <= 8; i++) {
-            respuestas[`p${i}`] = formData.get(`p${i}`);
-        }
+        for(let i=1; i<=9; i++) respuestas[`p${i}`] = formData.get(`p${i}`);
 
         const payload = {
-            usuario_id: usuarioId,
-            respuestas: respuestas
+            usuario_id: "user_123",
+            respuestas: respuestas,
+            bloqueo: formData.get('bloqueo'),
+            nivel: formData.get('nivel'),
+            proposito: formData.get('proposito')
         };
 
-        try {
-            const response = await fetch('http://127.0.0.1:5000/api/cognitivo/evaluar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-
-            if (data.status === 'success') {
-                const tbody = document.getElementById('resultsTableBody');
-                tbody.innerHTML = ''; 
-
-                for (const [area, info] of Object.entries(data.resultados)) {
-                    const fila = document.createElement('tr');
-                    const claseBadge = info.estado === 'Fortaleza' ? 'badge-fortaleza' : 'badge-oportunidad';
-
-                    fila.innerHTML = `
+        const res = await fetch('http://127.0.0.1:5000/api/cognitivo/evaluar', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if(data.status === 'success') {
+            document.getElementById('testScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            const tbody = document.getElementById('resultsTableBody');
+            tbody.innerHTML = '';
+            
+            // Generar filas dinámicamente
+            for (const [area, info] of Object.entries(data.resultados)) {
+                tbody.innerHTML += `
+                    <tr>
                         <td><strong>${area}</strong></td>
-                        <td>${info.puntuacion.toFixed(1)} / 5.0</td>
-                        <td><span class="badge ${claseBadge}">${info.estado}</span></td>
-                    `;
-                    tbody.appendChild(fila);
-                }
-
-                // Colocar la advertencia en la pantalla amarilla
-                document.getElementById('resultDisclaimerBox').innerHTML = "⚠️ <strong>Nota:</strong> " + data.advertencia;
-
-                // CAMBIO DE PANTALLAS FLUIDO
-                document.getElementById('testScreen').style.display = 'none'; // Oculta pantalla verde
-                document.body.style.backgroundColor = 'var(--yellow-bg)';      // Cambia el fondo general a amarillo pastel
-                document.getElementById('resultsScreen').style.display = 'block'; // Muestra pantalla amarilla
-                
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            } else {
-                alert('Error al evaluar el test: ' + data.message);
+                        <td>${info.puntuacion} / 5.0</td>
+                        <td><span class="${info.estado === 'Fortaleza' ? 'badge-fortaleza' : 'badge-oportunidad'}">
+                            ${info.estado}
+                        </span></td>
+                    </tr>`;
             }
-
-        } catch (error) {
-            console.error('Error de conexión:', error);
-            alert('No se pudo conectar con el servidor backend.');
         }
     });
 </script>
-
 </body>
 </html>
