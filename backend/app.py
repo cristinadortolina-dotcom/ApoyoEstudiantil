@@ -3,7 +3,6 @@ from flask_cors import CORS
 from config.firebase_config import db
 from firebase_admin import firestore
 from orchestration import orquestar_peticion  # Conecta el orquestador
-
 # 1. IMPORTAR EL NUEVO SERVICIO DE AUTENTICACIÓN
 from services.autentic_service import AuthService  
 
@@ -31,6 +30,27 @@ def test_db():
         return jsonify({"status": "success", "message": "Documento creado en Firebase Firestore correctamente."})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+    
+# --- RUTA DE REGISTRO ---
+@app.route('/api/registro', methods=['POST'])
+def registro():
+    try:
+        data = request.get_json()
+        nombre = data.get("nombre")
+        correo = data.get("correo")
+        contrasena = data.get("contraseña")
+        rango = data.get("rango_academico")
+
+        # Llamamos al servicio (asegúrate de que registrar_usuario exista en AuthService)
+        resultado = autentic_service.registrar_usuario(nombre, correo, contrasena, rango)
+        
+        if resultado.get("exito"):
+            return jsonify({"status": "success", "message": "Usuario registrado"}), 201
+        else:
+            return jsonify({"status": "error", "error": resultado.get("mensaje")}), 400
+            
+    except Exception as e:
+        return jsonify({"status": "error", "error": str(e)}), 500
 
 # inicio de seccion
 @app.route('/api/auth/login', methods=['POST'])

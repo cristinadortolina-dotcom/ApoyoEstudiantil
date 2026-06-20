@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApoyoEstudiantil | Registro</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="header">
+                <h1>Únete a ApoyoEstudiantil 🚀</h1>
+                <p>Crea tu cuenta para empezar a organizar tu vida universitaria.</p>
+            </div>
+
+            <form id="registroForm">
+                <div class="input-group">
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Ej. Andrea Alvarez" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" placeholder="estudiante@ejemplo.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="rango_academico">Rango Académico</label>
+                    <select id="rango_academico" required style="padding: 12px 16px; border: 2px solid var(--border-color); border-radius: 12px; font-size: 14px; outline: none; background-color: #FAFAFA; color: var(--text-main);">
+                        <option value="Bachiller">Bachiller</option>
+                        <option value="Universitario">Universitario</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="contraseña">Contraseña</label>
+                    <input type="password" id="contraseña" placeholder="Crea una contraseña segura" required>
+                </div>
+
+                <div id="mensajeFeedback" style="margin-bottom: 15px; font-size: 13px; font-weight: 600; text-align: center; display: none;"></div>
+
+                <button type="submit" class="btn-primary">Registrarse</button>
+            </form>
+
+            <div class="footer">
+                <p>¿Ya tienes una cuenta? <a href="login.html" style="color: var(--primary-color);">Inicia Sesión</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="registro.js"></script>
+</body>
+</html>

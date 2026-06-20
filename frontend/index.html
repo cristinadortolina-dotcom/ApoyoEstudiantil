@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="style.css">
 
     <script>
-        if (!localStorage.getItem('usuario_id')) {
-            // Si no se encuentra el ID del usuario, rebota directo al login
-            window.location.href = 'login.html';
+        // Verificamos si el usuario tiene una sesión activa
+        const usuarioId = localStorage.getItem('usuario_id');
+        
+        if (!usuarioId) {
+            // Si no hay sesión, puedes decidir a dónde enviarlo.
+            // Si quieres que vean una página de bienvenida antes, podrías crear un 'bienvenida.html'
+            // Por ahora, lo enviaremos a registrar.html como tenías configurado:
+            window.location.href = 'registrar.html';
         }
     </script>
 </head>

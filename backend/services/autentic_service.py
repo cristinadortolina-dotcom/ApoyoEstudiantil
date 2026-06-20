@@ -1,12 +1,13 @@
 from config.firebase_config import db
-# IMPORTANTE: Mantenemos la importación requerida para la nueva sintaxis de filtros
 from google.cloud.firestore_v1.base_query import FieldFilter
-
+import uuid
 
 class AuthService:
     """ 
-    Servicio encargado de la lógica de autenticación consultando Firestore.
+    Servicio encargado de la lógica de autenticación consultando y escribiendo en Firestore.
     """
+    
+    # --- MÉTODO PARA LOGIN (TU CÓDIGO ORIGINAL) ---
     def verificar_credenciales(self, correo, contrasena):
         try:
             print("\n  [SERVICE] -> 1. Entrando a verificar_credenciales()")
@@ -49,3 +50,29 @@ class AuthService:
         except Exception as e:
             print(f"  [SERVICE] -> EXCEPCIÓN INTERNA: {str(e)}")
             return {"exito": False, "mensaje": f"Error en AuthService: {str(e)}"}
+
+    # --- MÉTODO NUEVO PARA REGISTRO ---
+    def registrar_usuario(self, nombre, correo, contrasena, rango_academico):
+        try:
+            # Generamos un ID único para vincular ambas colecciones
+            nuevo_id = str(uuid.uuid4())
+            
+            # Guardamos en 'usuario'
+            db.collection('usuario').document(nuevo_id).set({
+                "nombre": nombre,
+                "rango_academico": rango_academico,
+                "correo":correo,
+            })
+            
+            # Guardamos en 'cuenta'
+            db.collection('cuenta').add({
+                "id_usuario": nuevo_id,
+                "correo": correo,
+                "clave": contrasena,
+            })
+            
+            return {"exito": True}
+        
+        except Exception as e:
+            print(f"Error crítico al registrar: {str(e)}")
+            return {"exito": False, "mensaje": str(e)}
