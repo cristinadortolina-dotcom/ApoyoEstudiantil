@@ -14,18 +14,20 @@
                 <p>Tu espacio para organizar, aprender y crecer.</p>
             </div>
 
-            <form id="loginForm">
+            <form id="login-form">
                 <div class="input-group">
                     <label for="correo">Correo Electrónico</label>
                     <input type="email" id="correo" placeholder="estudiante@ejemplo.com" required>
                 </div>
 
                 <div class="input-group">
-                    <label for="contraseña">Contraseña</label>
-                    <input type="password" id="contraseña" placeholder="••••••••" required>
+                    <label for="clave">Contraseña</label>
+                    <input type="password" id="clave" placeholder="••••••••" required>
                 </div>
 
-                <button type="submit" class="btn-primary">Ingresar</button>
+                <div id="mensaje-error" style="color: #ff4d4d; margin-bottom: 15px; display: none; text-align: center; font-size: 0.9rem;"></div>
+
+                <button type="submit" id="btn-login" class="btn-primary">Ingresar</button>
             </form>
 
             <div class="footer">
