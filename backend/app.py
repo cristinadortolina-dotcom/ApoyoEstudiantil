@@ -5,6 +5,7 @@ from firebase_admin import firestore
 from orchestration import orquestar_peticion  # Conecta el orquestador
 # 1. IMPORTAR EL NUEVO SERVICIO DE AUTENTICACIÓN
 from services.autentic_service import AuthService  
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -54,7 +55,6 @@ def registro():
 
 # inicio de seccion
 @app.route('/api/auth/login', methods=['POST'])
-
 def login():
     try:
         print("\n--> [BACKEND app.py] 1. Petición POST recibida en /api/auth/login")
@@ -113,6 +113,68 @@ def chat():
         
     except Exception as e:
         return jsonify({"status": "error", "message": f"Error interno en el servidor: {str(e)}"}), 500
+
+
+# =========================================================
+# NUEVA RUTA DEL PASO 2: MÓDULO COGNITIVO 
+# =========================================================
+@app.route('/api/cognitivo/evaluar', methods=['POST'])
+def evaluar_test_cognitivo():
+    try:
+        datos = request.get_json()
+        usuario_id = datos.get("usuario_id")
+        respuestas = datos.get("respuestas")
+
+        if not usuario_id or not respuestas:
+            return jsonify({"status": "error", "message": "Datos incompletos para evaluar el test."}), 400
+
+        # Mapeo y cálculo matemático por Área Cognitiva (Escala 1 a 5)
+        atencion = (float(respuestas.get('p1', 0)) + float(respuestas.get('p2', 0))) / 2
+        memoria = (float(respuestas.get('p3', 0)) + float(respuestas.get('p4', 0))) / 2
+        funciones_ejecutivas = (float(respuestas.get('p5', 0)) + float(respuestas.get('p6', 0))) / 2
+        orientacion = (float(respuestas.get('p7', 0)) + float(respuestas.get('p8', 0))) / 2
+
+        analisis_areas = {
+            "Atención y Concentración": {
+                "puntuacion": atencion,
+                "estado": "Fortaleza" if atencion >= 4.0 else "Área de Oportunidad"
+            },
+            "Memoria de Trabajo": {
+                "puntuacion": memoria,
+                "estado": "Fortaleza" if memoria >= 4.0 else "Área de Oportunidad"
+            },
+            "Funciones Ejecutivas": {
+                "puntuacion": funciones_ejecutivas,
+                "estado": "Fortaleza" if funciones_ejecutivas >= 4.0 else "Área de Oportunidad"
+            },
+            "Orientación Espacio-Temporal": {
+                "puntuacion": orientacion,
+                "estado": "Fortaleza" if orientacion >= 4.0 else "Área de Oportunidad"
+            }
+        }
+
+        # Advertencia de responsabilidad legal / disclaimer solicitada por Andrea
+        advertencia_medica = "Esto no sustituye un diagnóstico psicológico y si necesita más información acudir a un especialista en el área."
+
+        # Guardar el registro histórico del test en la colección 'test_cognitivo'
+        registro_test = {
+            "usuario_id": usuario_id,
+            "fecha": datetime.datetime.utcnow().isoformat(),
+            "resultados": analisis_areas,
+            "advertencia": advertencia_medica
+        }
+        
+        db.collection('test_cognitivo').add(registro_test)
+
+        return jsonify({
+            "status": "success",
+            "resultados": analisis_areas,
+            "advertencia": advertencia_medica
+        }), 200
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": f"Error interno en la evaluación: {str(e)}"}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

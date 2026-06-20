@@ -3,44 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apoyo Estudiantil - Gestión Emocional</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Apoyo Estudiantil - Panel Principal</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --text-dark: #334155;
+            --border-color: #e2e8f0;
+            --green-pastel: #e6f4ea;
+            --green-text: #137333;
+            --blue-pastel: #e8f0fe;
+            --blue-text: #1a73e8;
+            --card-bg: #ffffff;
+        }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 700px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 45px 35px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        h1 { font-size: 1.9rem; color: #1e293b; margin-bottom: 10px; font-weight: 700; }
+        .welcome-text { color: #64748b; font-size: 1.05rem; margin-bottom: 35px; }
+
+        .menu-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 550px) { .menu-options { grid-template-columns: 1fr; } }
+
+        .option-card {
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 30px 20px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.25s ease;
+        }
+
+        .option-test:hover {
+            background-color: var(--green-pastel);
+            border-color: #b2dbbf;
+            transform: translateY(-3px);
+        }
+
+        .option-coach:hover {
+            background-color: var(--blue-pastel);
+            border-color: #b4cffc;
+            transform: translateY(-3px);
+        }
+
+        .icon-box {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .option-test .icon-box { background-color: #d4edda; color: var(--green-text); }
+        .option-coach .icon-box { background-color: #d2e3fc; color: var(--blue-text); }
+
+        .option-card h3 { font-size: 1.15rem; color: #1e293b; margin-bottom: 8px; font-weight: 600; }
+        .option-card p { font-size: 0.88rem; color: #64748b; line-height: 1.4; }
+
+        .logout-btn {
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+        .logout-btn:hover { color: #ef4444; text-decoration: underline; }
+    </style>
     <script>
-        // Verificamos si el usuario tiene una sesión activa
-        const usuarioId = localStorage.getItem('usuario_id');
-        
-        if (!usuarioId) {
-            // Si no hay sesión, puedes decidir a dónde enviarlo.
-            // Si quieres que vean una página de bienvenida antes, podrías crear un 'bienvenida.html'
-            // Por ahora, lo enviaremos a registrar.html como tenías configurado:
-            window.location.href = 'registrar.html';
+        // Proteger la ruta antes de renderizar la pantalla
+        if (!localStorage.getItem('usuario_id')) {
+            window.location.href = 'login.html';
         }
     </script>
 </head>
 <body>
+
+<div class="dashboard-container">
+    <h1 id="welcomeTitle">🧠 Apoyo Estudiantil LUZ</h1>
+    <p class="welcome-text">¿Qué módulo deseas utilizar el día de hoy?</p>
     
-    <div class="chat-container">
-        <header class="chat-header">
-            <div class="header-top">
-                <h2>🧠 Apoyo Estudiantil LUZ</h2>
-                <button id="btn-logout" class="logout-btn">Cerrar Sesión</button>
-            </div>
-            <p>¿Cómo te sientes hoy? Cuéntame tu día, tus dudas o tu estrés.</p>
-        </header>
+    <div class="menu-options">
+        <a href="test_cognitivo.html" class="option-card option-test">
+            <div class="icon-box">📊</div>
+            <h3>Test de Áreas Cognitivas</h3>
+            <p>Evalúa tus capacidades académicas y visualiza tus resultados en una matriz limpia.</p>
+        </a>
 
-        <div class="chat-box" id="chatBox">
-            <div class="message system-message">
-                🤖 ¡Hola! Estoy aquí para escucharte y ayudarte a gestionar tus emociones académicas. ¿De qué te gustaría hablar?
-            </div>
-        </div>
-
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Escribe aquí cómo te sientes..." autocomplete="off">
-            <button id="sendBtn">Enviar</button>
-        </div>
+        <a href="chat.html" class="option-card option-coach">
+            <div class="icon-box">🤖</div>
+            <h3>Asistente de Gestión Emocional</h3>
+            <p>Conversa con la IA, desahoga el estrés académico y procesa tus intenciones.</p>
+        </a>
     </div>
 
-    <script src="app.js"></script>
+    <button class="logout-btn" onclick="logout()">Cerrar Sesión de forma segura</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const nombre = localStorage.getItem('usuario_nombre') || "Estudiante";
+        document.getElementById('welcomeTitle').innerText = `¡Hola de nuevo, ${nombre}!`;
+    });
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+</script>
+
 </body>
 </html>
