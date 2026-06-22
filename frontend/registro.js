@@ -4,11 +4,11 @@ document.getElementById('registroForm').addEventListener('submit', async (e) => 
 
     // Capturamos los valores de los inputs
     const datos = {
-        nombre: document.getElementById('nombre').value,
-        correo: document.getElementById('correo').value,
-        rango_academico: document.getElementById('rango_academico').value,
-        contraseña: document.getElementById('contraseña').value
-    };
+    nombre: document.getElementById('nombre').value,
+    correo: document.getElementById('correo').value,
+    rango_academico: document.getElementById('rango_academico').value,
+    password: document.getElementById('password').value // Ahora coincide con el HTML
+};
 
     try {
         // Enviamos los datos al backend mediante una petición POST

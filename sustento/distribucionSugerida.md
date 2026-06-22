@@ -3,10 +3,12 @@ mi-proyecto-mvp/
 ├──/                  # Capa Lógica y Orquestación (Python)
 │   ├── config/
 │   │   ├── firebase_config.py# Inicialización de Firebase Admin SDK
-│   │   └── settings.py       # Variables de entorno (.env, API keys)
+|   |   |
+│   │   └── firebase-key.json
 │   │
 │   ├── services/
 │   │   ├── ai_service.py     # Conexión con la API de IA y parseo de lenguaje natural
+        |--autentic_service.py #encargado de la lógica de autenticación consultando y escribiendo en Firestore.
 │   │   └── db_service.py     # Funciones CRUD específicas para interactuar con Firebase
 │   │
 │   ├── orchestration.py      # EL NÚCLEO: Medía entre el texto de la IA y las acciones de db_service

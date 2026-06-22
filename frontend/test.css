@@ -114,3 +114,172 @@ input[type="radio"] { margin-right: 8px; accent-color: var(--primary); }
     background-color: #fee2e2; color: #991b1b; 
     padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold;
 }
+
+/* Contenedor principal de la sección de entrenamiento */
+#contenedor-ejercicios {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px dashed #e2e8f0;
+}
+
+/* Título de cada área de oportunidad */
+.seccion-ejercicios-area {
+    margin-bottom: 25px;
+}
+
+.seccion-ejercicios-area h3 {
+    font-size: 1.2rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Grilla para las tarjetas de ejercicios */
+.ejercicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Diseño de la tarjeta individual */
+.card-ejercicio {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-ejercicio:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Cabecera de la tarjeta */
+.card-ejercicio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.card-ejercicio-header h4 {
+    font-size: 1.05rem;
+    color: #1a202c;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Insignia de nivel (Fácil, Medio, Alto) */
+.badge-nivel {
+    background-color: #edf2f7;
+    color: #4a5568;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Textos informativos dentro de la tarjeta */
+.descripcion-ejercicio {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.instruccion-ejercicio {
+    background-color: #f7fafc;
+    border-left: 3px solid #ecc94b; /* Detalle amarillo pastel decorativo */
+    padding: 10px;
+    font-size: 0.85rem;
+    color: #4a5568;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+/* Botón de acción para completar el ejercicio */
+.btn-completar-ejercicio {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-completar-ejercicio:hover {
+    background-color: #2b6cb0;
+}
+
+/* Contenedor del botón de acción principal */
+.actions-container {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Diseño del botón de Inicio */
+.btn-inicio {
+    background-color: #2b6cb0; /* Azul corporativo/educativo */
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-inicio:hover {
+    background-color: #2c5282; /* Tono más oscuro al pasar el cursor */
+    transform: translateY(-1px);
+}
+
+.btn-inicio:active {
+    transform: translateY(1px);
+}
+
+/* Panel de Diagnóstico Personalizado */
+.diagnostico-panel {
+    background-color: #f8fafc;
+    border-left: 4px solid #4a5568; /* Tono gris oscuro/azulado sobrio */
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.diagnostico-panel h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #2d3748;
+}
+
+.diagnostico-panel p {
+    margin: 0;
+    color: #4a5568;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}

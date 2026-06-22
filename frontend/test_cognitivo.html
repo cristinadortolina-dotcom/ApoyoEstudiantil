@@ -41,20 +41,27 @@
         </form>
     </div>
 
-    <div id="resultsScreen" class="results-card" style="display: none;">
-        <h1>Tus Resultados</h1>
-        <table class="results-table">
-            <thead>
-                <tr>
-                    <th>Área</th>
-                    <th>Puntuación</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="resultsTableBody"></tbody>
-        </table>
-        <br>
-        <button class="btn-action" onclick="location.reload()">Volver a empezar</button>
+    <div id="resultsScreen" style="display: none;">
+    <h2>Tus Resultados de la Evaluación</h2>
+    <div id="diagnostico-container" class="diagnostico-panel" style="display: none;">
+        <h3>Perfil de Entrenamiento</h3>
+        <p id="diagnostico-texto"></p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Dimensión Cognitiva</th>
+                <th>Puntuación</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody id="resultsTableBody">
+            </tbody>
+    </table>
+
+    <div id="contenedor-ejercicios"></div>
+    <div class="actions-container">
+        <button id="btnVolverInicio" class="btn-inicio">🏠 Volver al Inicio</button>
     </div>
 </div>
 
@@ -87,12 +94,21 @@
 
     document.getElementById('cognitiveTestForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Obtenemos el ID real almacenado cuando la persona hizo login
+        const usuarioActivoId = localStorage.getItem("usuario_id");
+        if (!usuarioActivoId) {
+            alert("Tu sesión ha expirado o no has iniciado sesión. Serás redirigido.");
+            window.location.href = "login.html";
+            return;
+        }
+
         const formData = new FormData(e.target);
         const respuestas = {};
         for(let i=1; i<=9; i++) respuestas[`p${i}`] = formData.get(`p${i}`);
 
         const payload = {
-            usuario_id: "user_123",
+            usuario_id: usuarioActivoId, // <--- AHORA USA EL ID VERDADERO
             respuestas: respuestas,
             bloqueo: formData.get('bloqueo'),
             nivel: formData.get('nivel'),
@@ -125,7 +141,82 @@
                         </span></td>
                     </tr>`;
             }
+
+            // =================================================================
+            // NUEVA LÓGICA DE AUTOMATIZACIÓN DE EJERCICIOS (Desde Firestore)
+            // =================================================================
+            const contenedorEjercicios = document.getElementById('contenedor-ejercicios');
+            contenedorEjercicios.innerHTML = '<h3>Cargando tu plan de entrenamiento personalizado...</h3>';
+
+            const mapeoCategorias = {
+                "Atención": "atencion",
+                "Funciones Ejecutivas": "ejecutivas",
+                "Memoria": "memoria",
+                "Orientación": "orientacion"
+            };
+
+            let htmlEjerciciosAcumulado = `<h2>📚 Plan de Estimulación Recomendado</h2>`;
+            let tieneOportunidades = false;
+
+            for (const [area, info] of Object.entries(data.resultados)) {
+                if (info.estado === 'Oportunidad') {
+                    tieneOportunidades = true;
+                    const categoriaRuta = mapeoCategorias[area];
+
+                    try {
+                        const responseEjercicios = await fetch(`http://127.0.0.1:5000/api/ejercicios/${categoriaRuta}`);
+                        const dataEjercicios = await responseEjercicios.json();
+
+                        if (dataEjercicios.status === 'success') {
+                            htmlEjerciciosAcumulado += `
+                                <div class="seccion-ejercicios-area">
+                                    <h3>💡 Ejercicios de refuerzo para: ${area}</h3>
+                                    <div class="ejercicios-grid">
+                            `;
+
+                            dataEjercicios.data.forEach(ejercicio => {
+                                htmlEjerciciosAcumulado += `
+                                    <div class="card-ejercicio">
+                                        <div class="card-ejercicio-header">
+                                            <h4>${ejercicio.nombre}</h4>
+                                            <span class="badge-nivel">${ejercicio.nivel}</span>
+                                        </div>
+                                        <p class="descripcion-ejercicio">${ejercicio.descripcion}</p>
+                                        <div class="instruccion-ejercicio">
+                                            <strong>Instrucción práctica:</strong> ${ejercicio.instruccion}
+                                        </div>
+                                        <button class="btn-completar-ejercicio" onclick="alert('¡Excelente trabajo! Ejercicio registrado.')">
+                                            Marcar como Realizado
+                                        </button>
+                                    </div>
+                                `;
+                            });
+
+                            htmlEjerciciosAcumulado += `</div></div>`;
+                        }
+                    } catch (err) {
+                        console.error(`Error al solicitar ejercicios de ${categoriaRuta}:`, err);
+                    }
+                }
+            }
+
+            if (!tieneOportunidades) {
+                htmlEjerciciosAcumulado += `
+                    <div class="instruccion-ejercicio" style="border-left-color: #48bb78; background-color: #f0fff4;">
+                        <strong>¡Felicitaciones!</strong> Has mantenido un rendimiento óptimo en todas las áreas cognitivas evaluadas hoy. No requieres ejercicios de nivelación inmediatos.
+                    </div>
+                `;
+            }
+
+            contenedorEjercicios.innerHTML = htmlEjerciciosAcumulado;
         }
+    });
+
+    // =================================================================
+    // MODIFICACIÓN: LÓGICA DEL BOTÓN VOLVER AL INICIO
+    // =================================================================
+    document.getElementById('btnVolverInicio').addEventListener('click', () => {
+        window.location.href = 'index.html'; 
     });
 </script>
 </body>
