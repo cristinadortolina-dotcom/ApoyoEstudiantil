@@ -1,14 +1,22 @@
-/* --- VARIABLES --- */
 :root {
-    --primary: #6db197;
-    --primary-dark: #568d78;
-    --bg-app: #f4f7f6;
+    /* Paleta del Test (Verde) */
+    --bg-app: #E6F4EA;        /* Verde pastel de fondo */
+    --primary: #38A169;       /* Verde vivo para detalles */
+    --primary-dark: #276749;  /* Verde oscuro para títulos */
     --text-main: #334155;
     --white: #ffffff;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --yellow-pastel: #fef08a;
-    --yellow-soft: #fffbeb;
-    --yellow-border: #fef9c3;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    /* Paleta de Resultados (Amarillo) */
+    --yellow-soft: #FFFBEB;   /* Amarillo pastel para cajas de resultado */
+    --yellow-pastel: #FEF08A; 
+    --yellow-border: #F59E0B; /* Amarillo vivo para bordes de resultado */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -16,270 +24,292 @@ body {
     background-color: var(--bg-app);
     color: var(--text-main);
     line-height: 1.6;
-    margin: 0;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px 20px;
 }
 
+/* === ENFOCADO: Ampliado a 680px para mayor comodidad visual === */
 .container {
-    max-width: 700px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 680px;
     background: var(--white);
     padding: 40px;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-h1 { color: var(--primary-dark); text-align: center; margin-bottom: 30px; }
+h1 { 
+    color: var(--primary-dark); 
+    text-align: center; 
+    margin-bottom: 30px; 
+    font-size: 1.7rem; 
+    font-weight: 700;
+}
 
-/* --- BLOQUES DE PREGUNTAS --- */
 .question-block {
     background: #fdfdfd;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 22px;
+    border-radius: 14px;
     border: 1px solid #e2e8f0;
     margin-bottom: 20px;
-    transition: transform 0.2s;
+    transition: border-color 0.2s;
 }
 
-.question-block:hover { border-color: var(--primary); }
+.question-block:hover { 
+    border-color: var(--primary); 
+}
 
-.options-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.question-block p {
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* === MEJORADO: Distribución inteligente en malla para las opciones === */
+.options-group { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+    gap: 10px; 
+    margin-top: 10px; 
+}
 
 .option-label {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     cursor: pointer;
     background: #f1f5f9;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 0.2s;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.option-label:hover { background: #e2e8f0; }
+.option-label:hover { 
+    background: #e2e8f0; 
+}
 
-input[type="radio"] { margin-right: 8px; accent-color: var(--primary); }
+input[type="radio"] { 
+    margin-right: 8px; 
+    accent-color: var(--primary); 
+}
 
-/* --- BOTONES --- */
 .btn-action {
     width: 100%;
     padding: 15px;
     background: var(--primary);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.1s;
+    margin-top: 10px;
 }
 
-.btn-action:hover { background: var(--primary-dark); }
-
-/* --- ESTILOS DE RESULTADOS (AMARILLO PASTEL) --- */
-.results-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    border: 2px solid var(--yellow-border);
+.btn-action:hover { 
+    background: var(--primary-dark); 
 }
 
-.results-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
-    border-radius: 12px;
-    overflow: hidden;
+.btn-action:active {
+    transform: scale(0.99);
 }
 
-.results-table th {
-    background-color: var(--yellow-pastel);
-    color: #713f12;
-    padding: 15px;
-    text-align: left;
-    font-weight: 700;
+/* --- RESULTADOS (MATRIZ DOBLE ENTRADA) --- */
+.results-card { 
+    background: #ffffff; 
+    border-radius: 16px; 
+    padding: 25px; 
+    border: 2px solid var(--yellow-border); 
 }
 
-.results-table td {
-    padding: 15px;
-    border-bottom: 1px solid var(--yellow-border);
-    background-color: var(--yellow-soft);
+.results-table { 
+    width: 100%; 
+    border-collapse: separate; 
+    border-spacing: 0; 
+    margin-top: 20px; 
+    border-radius: 12px; 
+    overflow: hidden; 
+}
+
+.results-table th { 
+    background-color: var(--yellow-pastel); 
+    color: #713f12; 
+    padding: 14px; 
+    text-align: left; 
+    font-weight: 700; 
+    font-size: 0.95rem;
+}
+
+.results-table td { 
+    padding: 14px; 
+    border-bottom: 1px solid var(--yellow-border); 
+    background-color: var(--yellow-soft); 
+    font-size: 0.95rem;
 }
 
 .badge-fortaleza { 
-    background-color: #dcfce7; color: #166534; 
-    padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold;
+    background-color: #dcfce7; 
+    color: #166534; 
+    padding: 6px 12px; 
+    border-radius: 20px; 
+    font-size: 0.85em; 
+    font-weight: bold; 
 }
+
 .badge-oportunidad { 
-    background-color: #fee2e2; color: #991b1b; 
-    padding: 4px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold;
+    background-color: #fee2e2; 
+    color: #991b1b; 
+    padding: 6px 12px; 
+    border-radius: 20px; 
+    font-size: 0.85em; 
+    font-weight: bold; 
 }
 
-/* Contenedor principal de la sección de entrenamiento */
-#contenedor-ejercicios {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px dashed #e2e8f0;
+/* --- SECCIÓN DE EJERCICIOS RECOMENDADOS --- */
+#contenedor-ejercicios { 
+    margin-top: 35px; 
+    padding-top: 25px; 
+    border-top: 2px dashed #e2e8f0; 
 }
 
-/* Título de cada área de oportunidad */
-.seccion-ejercicios-area {
-    margin-bottom: 25px;
+.seccion-ejercicios-area { 
+    margin-bottom: 30px; 
 }
 
-.seccion-ejercicios-area h3 {
-    font-size: 1.2rem;
-    color: #2d3748;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.seccion-ejercicios-area h3 { 
+    font-size: 1.2rem; 
+    color: #1e293b; 
+    margin-bottom: 15px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
 }
 
-/* Grilla para las tarjetas de ejercicios */
-.ejercicios-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+/* === MEJORADO: Tarjetas de ejercicios en paralelo si hay espacio === */
+.ejercicios-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    gap: 15px; 
 }
 
-/* Diseño de la tarjeta individual */
-.card-ejercicio {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.card-ejercicio { 
+    background-color: #ffffff; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 14px; 
+    padding: 20px; 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03); 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.card-ejercicio:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.card-ejercicio-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: start; 
+    margin-bottom: 12px; 
+    gap: 10px; 
 }
 
-/* Cabecera de la tarjeta */
-.card-ejercicio-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 12px;
-    gap: 10px;
+.card-ejercicio-header h4 { 
+    font-size: 1rem; 
+    color: #1a202c; 
+    margin: 0; 
+    font-weight: 600; 
 }
 
-.card-ejercicio-header h4 {
-    font-size: 1.05rem;
-    color: #1a202c;
-    margin: 0;
-    font-weight: 600;
-}
-
-/* Insignia de nivel (Fácil, Medio, Alto) */
-.badge-nivel {
-    background-color: #edf2f7;
-    color: #4a5568;
-    font-size: 0.75rem;
-    padding: 4px 8px;
-    border-radius: 20px;
-    font-weight: 500;
+.badge-nivel { 
+    background-color: #edf2f7; 
+    color: #4a5568; 
+    font-size: 0.75rem; 
+    padding: 4px 8px; 
+    border-radius: 20px; 
+    font-weight: 500; 
     white-space: nowrap;
 }
 
-/* Textos informativos dentro de la tarjeta */
-.descripcion-ejercicio {
-    font-size: 0.9rem;
-    color: #4a5568;
-    margin-bottom: 12px;
-    line-height: 1.4;
+.descripcion-ejercicio { 
+    font-size: 0.9rem; 
+    color: #4a5568; 
+    margin-bottom: 12px; 
+    line-height: 1.4; 
 }
 
-.instruccion-ejercicio {
-    background-color: #f7fafc;
-    border-left: 3px solid #ecc94b; /* Detalle amarillo pastel decorativo */
-    padding: 10px;
-    font-size: 0.85rem;
-    color: #4a5568;
-    border-radius: 0 6px 6px 0;
-    margin-bottom: 15px;
-    flex-grow: 1;
+.instruccion-ejercicio { 
+    background-color: #f7fafc; 
+    border-left: 3px solid #ecc94b; 
+    padding: 12px; 
+    font-size: 0.85rem; 
+    color: #4a5568; 
+    border-radius: 0 8px 8px 0; 
+    margin-bottom: 15px; 
 }
 
-/* Botón de acción para completar el ejercicio */
-.btn-completar-ejercicio {
-    background-color: #3182ce;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    width: 100%;
-    text-align: center;
+.btn-completar-ejercicio { 
+    background-color: #3182ce; 
+    color: white; 
+    border: none; 
+    padding: 12px; 
+    border-radius: 10px; 
+    font-size: 0.9rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    width: 100%; 
+    text-align: center; 
+    transition: background 0.2s;
 }
 
 .btn-completar-ejercicio:hover {
     background-color: #2b6cb0;
 }
 
-/* Contenedor del botón de acción principal */
-.actions-container {
-    margin-top: 40px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
+.actions-container { 
+    margin-top: 30px; 
+    display: flex; 
+    justify-content: center; 
 }
 
-/* Diseño del botón de Inicio */
-.btn-inicio {
-    background-color: #2b6cb0; /* Azul corporativo/educativo */
-    color: #ffffff;
-    border: none;
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.btn-inicio { 
+    background-color: #2b6cb0; 
+    color: #ffffff; 
+    border: none; 
+    padding: 14px 30px; 
+    font-size: 1rem; 
+    font-weight: 600; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    width: 100%; 
+    text-align: center; 
+    transition: background 0.2s;
 }
 
 .btn-inicio:hover {
-    background-color: #2c5282; /* Tono más oscuro al pasar el cursor */
-    transform: translateY(-1px);
+    background-color: #2c5282;
 }
 
-.btn-inicio:active {
-    transform: translateY(1px);
+.diagnostico-panel { 
+    background-color: #f8fafc; 
+    border-left: 4px solid #4a5568; 
+    padding: 15px 20px; 
+    margin-bottom: 25px; 
+    border-radius: 6px; 
 }
 
-/* Panel de Diagnóstico Personalizado */
-.diagnostico-panel {
-    background-color: #f8fafc;
-    border-left: 4px solid #4a5568; /* Tono gris oscuro/azulado sobrio */
-    padding: 15px 20px;
-    margin-bottom: 25px;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+.diagnostico-panel h3 { 
+    margin-top: 0; 
+    margin-bottom: 8px; 
+    font-size: 1.1rem; 
+    color: #2d3748; 
 }
 
-.diagnostico-panel h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-    color: #2d3748;
-}
-
-.diagnostico-panel p {
-    margin: 0;
-    color: #4a5568;
-    font-size: 0.95rem;
-    line-height: 1.5;
+.diagnostico-panel p { 
+    margin: 0; 
+    color: #4a5568; 
+    font-size: 0.95rem; 
 }

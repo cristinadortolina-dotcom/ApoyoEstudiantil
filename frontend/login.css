@@ -1,12 +1,23 @@
-:root {
-    --bg-color: #F4F7FE;
+/* Color para Iniciar Sesión (Azul) */
+body.theme-login {
+    --bg-color: #E8F0FE;     /* Azul pastel de fondo */
+    --primary-color: #1A73E8; /* Azul vivo para botones y bordes */
+    --primary-hover: #1557B0;
     --card-bg: #FFFFFF;     
-    --primary-color: #7F5AF0;     
-    --primary-hover: #6842D3;     
-    --secondary-color: #2CB67D;   
     --text-main: #2B2C34;         
     --text-muted: #9FA1A6;        
-    --border-color: #E2E8F0;      
+    --border-color: #E2E8F0;
+}
+
+/* Color para Registro (Morado) */
+body.theme-registro {
+    --bg-color: #F3E8FF;     /* Morado pastel de fondo */
+    --primary-color: #7F5AF0; /* Morado vivo para botones y bordes */
+    --primary-hover: #6842D3;
+    --card-bg: #FFFFFF;     
+    --text-main: #2B2C34;         
+    --text-muted: #9FA1A6;        
+    --border-color: #E2E8F0;
 }
 
 * {
@@ -22,7 +33,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .login-container {
@@ -34,8 +45,8 @@ body {
 .login-card {
     background-color: var(--card-bg);
     padding: 40px 30px;
-    border-radius: 20px; /* Bordes bien redondeados y amigables */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Sombra muy suave y moderna */
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
 }
 
 .header {
@@ -77,13 +88,11 @@ body {
     background-color: #FAFAFA;
 }
 
-/* Efecto cuando haces clic en el input */
 .input-group input:focus {
     border-color: var(--primary-color);
     background-color: #FFF;
     box-shadow: 0 0 0 4px rgba(127, 90, 240, 0.1);
 }
-
 
 .btn-primary {
     width: 100%;

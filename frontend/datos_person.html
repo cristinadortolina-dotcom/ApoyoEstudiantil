@@ -6,55 +6,49 @@
     <title>ApoyoEstudiantil | Datos personales</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="datosPersonalesScreen">
-        <div class="perfil-card">
+<body class="theme-datos">
+    <div class="perfil-card">
+        <div class="header-card">
             <h2>👤 Mis Datos Personales</h2>
-        
-            <form id="formPerfil">
-                <div class="form-group">
-                    <label for="perfilNombre">Nombre Completo:</label>
-                    <input type="text" id="perfilNombre" required disabled>
-                </div>
-
-                <div class="form-group">
-                    <label for="perfilCorreo">Correo Electrónico:</label>
-                    <input type="email" id="perfilCorreo" readonly style="background-color: #e2e8f0; cursor: not-allowed;">
-                </div>
-
-                <div class="form-group">
-                    <label for="perfilNivel">Rango/Nivel Académico:</label>
-                    <select id="perfilNivel" required disabled>
-                        <option value="Bachillerato">Bachillerato</option>
-                        <option value="Pregrado">Universitario</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="perfilProposito">Propósito Actual (Establecido en el Test):</label>
-                    <input type="text" id="perfilProposito" readonly style="background-color: #e2e8f0; cursor: not-allowed;">
-                </div>
-
-                <div class="botones-perfil-control" style="margin-top: 15px;">
-                    <button type="button" id="btnEditar" style="background-color: #3182ce; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold;">✏️ Modificar Datos</button>
-                    <button type="submit" id="btnGuardar" style="display: none; background-color: #48bb78; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold;">💾 Guardar Cambios</button>
-                    <button type="button" id="btnCancelar" style="display: none; background-color: #a0aec0; color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 5px;">❌ Cancelar</button>
-                </div>
-            </form>
-
-            <hr class="divisor" style="margin: 20px 0; border: 0; border-top: 1px solid #cbd5e1;">
-
-            <h3>📋 Plan Cognitivo Activo</h3>
-            <div id="planCognitivoContenedor" class="plan-contenedor" style="background-color: #f8fafc; padding: 10px; border-radius: 6px;">
-                </div>
-
-            <div class="perfil-acciones" style="display: flex; gap: 10px; margin-top: 20px;">
-                <button id="btnRegresarMenu" class="btn-volver" style="flex: 1; padding: 10px; background-color: #64748b; color: white; border: none; border-radius: 6px; cursor: pointer;">🏠 Volver al Menú</button>
-                <button id="btnCerrarSesion" class="btn-logout" style="flex: 1; padding: 10px; background-color: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">🚪 Cerrar Sesión</button>
+            <p>Visualiza o edita tu información de perfil estudiantil.</p>
+        </div>
+    
+        <form id="formPerfil">
+            <div class="form-group">
+                <label for="perfilNombre">Nombre Completo:</label>
+                <input type="text" id="perfilNombre" required disabled>
             </div>
+
+            <div class="form-group">
+                <label for="perfilCorreo">Correo Electrónico:</label>
+                <input type="email" id="perfilCorreo" readonly style="background-color: #E2E8F0; cursor: not-allowed;">
+            </div>
+
+            <div class="form-group">
+                <label for="perfilNivel">Rango/Nivel Académico:</label>
+                <select id="perfilNivel" required disabled>
+                    <option value="Bachillerato">Bachillerato</option>
+                    <option value="Pregrado">Universitario</option>
+                </select>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+                <button type="button" id="btnEditar" class="btn-primary-card">✏️ Editar Datos</button>
+                <button type="submit" id="btnGuardar" class="btn-primary-card" style="display: none; background-color: var(--secondary-color);">💾 Guardar Cambios</button>
+                <button type="button" id="btnCancelar" class="btn-volver" style="display: none; background-color: #A0AEC0; color: white;">❌ Cancelar</button>
+            </div>
+        </form>
+
+        <hr class="divisor">
+
+        <h3 style="font-size: 15px; margin-bottom: 8px;">📋 Plan Cognitivo Activo</h3>
+        <div id="planCognitivoContenedor" class="plan-contenedor"></div>
+
+        <div class="perfil-acciones" style="margin-top: 20px;">
+            <button id="btnRegresarMenu" class="btn-volver">🏠 Volver al Menú Principal</button>
         </div>
     </div>
 
-    <script src="inicio.js" defer></script>
+    <script src="inicio.js"></script> 
 </body>
 </html>

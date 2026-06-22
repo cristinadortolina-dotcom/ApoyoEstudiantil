@@ -1,140 +1,286 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Color para Datos Personales (Naranja) */
+body.theme-datos {
+    --bg-color: #FFEDD5;      /* Naranja pastel de fondo */
+    --primary-color: #EA580C; /* Naranja vivo para botones/detalles */
+    --primary-hover: #C2410C;
+    --card-bg: #FFFFFF;     
+    --text-main: #2B2C34;         
+    --border-color: #FDBA74; 
 }
 
-body {
-    background-color: #f4f6f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* Color para Asistente Virtual (Rojo) */
+body.theme-asistente {
+    --bg-color: #FEE2E2;      /* Rojo pastel de fondo */
+    --primary-color: #ff4c4c; /* Rojo vivo para botones/header */
+    --primary-hover: #fa3535;
+    --card-bg: #FFFFFF;     
+    --text-main: #2B2C34;         
+    --border-color: #FCA5A5; 
 }
 
-.chat-container {
-    width: 100%;
-    max-width: 500px;
-    height: 85vh;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
+/* Modifica también la clase .chat-header para que use la variable de color vivo */
 .chat-header {
-    background: #1a73e8;
+    background: var(--primary-color, #1a73e8); /* Ahora tomará el rojo vivo */
     color: white;
     padding: 20px;
     text-align: center;
 }
 
-.chat-header h2 {
-    font-size: 1.4rem;
-    margin-bottom: 5px;
-}
-
-.chat-header p {
-    font-size: 0.85rem;
-    opacity: 0.9;
-}
-
-.chat-box {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #f8f9fa;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.message {
-    max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.system-message {
-    background: #e8f0fe;
-    color: #174ea6;
-    align-self: flex-start;
-}
-
-.user-message {
-    background: #1a73e8;
-    color: white;
-    align-self: flex-end;
-}
-
-.ia-message {
-    background: #ffffff;
-    color: #3c4043;
-    align-self: flex-start;
-    border: 1px solid #dadce0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.chat-input-area {
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #dadce0;
-    display: flex;
-    gap: 10px;
-}
-
-#userInput {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #dadce0;
-    border-radius: 6px;
-    outline: none;
-    font-size: 0.95rem;
-}
-
-#userInput:focus {
-    border-color: #1a73e8;
-}
-
+/* Y el botón de enviar del chat */
 #sendBtn {
-    background: #1a73e8;
+    background: var(--primary-color, #1a73e8); /* Tomará el rojo vivo */
     color: white;
     border: none;
     padding: 0 20px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    transition: background 0.2s;
 }
 
-#sendBtn:hover {
-    background: #1557b0;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- ESTRUCTURA DE LA TARJETA PRINCIPAL (LA CAJITA) --- */
+.perfil-card, .chat-container {
+    background-color: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(127, 90, 240, 0.06);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Ajuste específico para que el chat mantenga una altura estilizada */
+.chat-container {
+    height: 85vh;
+    max-height: 650px;
+}
+
+/* Encabezados */
+.header-card {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header-card h2 {
+    font-size: 1.6rem;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.header-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* --- ESTILOS DE FORMULARIOS (DATOS PERSONALES) --- */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-main);
+}
+
+.form-group input, .form-group select {
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #FAFAFA;
+    color: var(--text-main);
+    width: 100%;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--primary-color);
+    background-color: #FFF;
+    box-shadow: 0 0 0 4px rgba(127, 90, 240, 0.1);
+}
+
+/* --- COMPONENTES DEL CHAT --- */
+.chat-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+}
+
+.header-top h2 {
+    font-size: 1.3rem;
+    color: var(--text-main);
+}
+
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Mensajes */
+.message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.system-message {
+    background-color: var(--msg-system);
+    color: var(--msg-system-text);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.user-message {
+    background-color: var(--msg-user);
+    color: rgb(70, 67, 67);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.ia-message {
+    background-color: var(--msg-ia);
+    color: var(--text-main);
+    align-self: flex-start;
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 4px;
+}
+
+/* Área de entrada del chat */
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    outline: none;
+    font-size: 14px;
+    background-color: #FAFAFA;
+    transition: all 0.3s ease;
+}
+
+.chat-input-area input:focus {
+    border-color: var(--primary-color);
+    background-color: #e73a3a;
+}
+
+.chat-input-area button {
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-input-area button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* --- BOTONES GENERALES DE ACCIÓN --- */
+.btn-primary-card {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-card:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-volver {
+    width: 100%;
+    padding: 12px;
+    background-color: #E2E8F0;
+    color: var(--text-main);
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: #CBD5E1;
+}
+
+/* Plan Cognitivo Contenedor */
+.plan-contenedor {
+    background-color: #FAFAFA;
+    border: 2px solid var(--border-color);
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    min-height: 50px;
+}
+
+.divisor {
+    margin: 20px 0;
+    border: 0;
+    border-top: 2px solid var(--border-color);
 }
 
 .logout-btn {
-    background-color: #e74c3c;
+    background-color: #FF4D4D;
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 0.85rem;
-    transition: background 0.2s;
 }
 
 .logout-btn:hover {
-    background-color: #c0392b;
+    background-color: #E03E3E;
 }
-
